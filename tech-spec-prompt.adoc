@@ -1,0 +1,64 @@
+= Prompt – Technische Spezifikation Pflegedienstanwendung
+:author: Hanan Mehic
+:docdate: 06.02.2026
+:doctype: article
+:sectnums:
+
+== 1. Kontext
+
+Der folgende Prompt wurde verwendet, um eine technische Spezifikation
+für eine Pflegedienstanwendung zu erstellen.
+
+Die technische Spezifikation soll auf einer bereits bestehenden
+fachlichen Spezifikation aufbauen.
+
+
+
+== 2. Prompt
+
+[source]
+----
+Ziel ist es, eine technische Spezifikation zu erstellen anhand der fachlichen Spezifikation.
+
+Technische Vorgaben und Präferenzen:
+
+- Datenbank: PostgreSQL
+- Backend: Quarkus
+- Persistenz: Hibernate Panache mit Repository Pattern
+- Authentifizierung und Autorisierung: Keycloak
+- Autorisierungskonzept: PBAC (Policy-Based Access Control)
+- Datenmodell: strikt in der 3. Normalform
+
+Wichtige Anforderungen:
+
+- Keine Annahmen treffen
+- Keine Inhalte generieren, bevor alle technischen Aspekte geklärt sind
+- Zuerst Fragen zu allen technischen Aspekten stellen
+- Ich werde alle Fragen beantworten
+- Ich habe ausreichend Zeit für die Klärung
+
+Zusätzliche Hinweise:
+
+- Die Anwendung soll als App umgesetzt werden
+- Der Fokus liegt auf Wartbarkeit und professionellem Einsatz
+- Verwendete Technologien sollen im professionellen Umfeld etabliert sein
+- Keycloak soll ausschließlich für Login und Identitätsverwaltung verwendet werden
+- Fachliche und technische Spezifikation müssen konsistent sein
+----
+
+
+== 3. Zweck des Prompts
+
+Dieser Prompt dient als:
+
+- Ausgangspunkt für die technische Analyse
+- Leitlinie für Architekturentscheidungen
+- Grundlage für eine vollständige technische Spezifikation
+- Dokumentation der Anforderungen an Vorgehen und Qualität
+
+
+
+== 4. Anmerkung
+
+Der Prompt erzwingt ein strukturiertes, schrittweises Vorgehen
+und verhindert implizite Annahmen oder unkontrollierte Architekturentscheidungen.

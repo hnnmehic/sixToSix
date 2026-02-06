@@ -1,0 +1,423 @@
+= Pflegedienstanwendung – Technische Spezifikation
+:author: Hanan Mehic
+:docdate: 06.02.2026
+:doctype: book
+:toc: top
+:toclevels: 4
+:sectnums:
+
+== 1. Ziel der technischen Spezifikation
+
+Dieses Dokument beschreibt die technische Umsetzung der Pflegedienstanwendung
+auf Basis der fachlichen Spezifikation.
+
+Ziel ist:
+- eine wartbare
+- sichere
+- erweiterbare
+- professionelle Architektur
+
+Die Spezifikation dient als verbindliche Grundlage für Implementierung,
+Weiterentwicklung und Wartung.
+
+
+
+== 2. Gesamtarchitektur
+
+=== 2.1 Architekturüberblick
+
+Die Anwendung ist als mobile Client-Server-Anwendung umgesetzt.
+
+Architekturprinzipien:
+- monolithisches Backend
+- stateless REST-Architektur
+- klare Schichten (Entity → Repository → Resource)
+- zentrale Authentifizierung
+- strikte Trennung von Authentifizierung und Autorisierung
+
+
+
+=== 2.2 Komponenten
+
+- Mobile App (React Native)
+- Backend (Quarkus)
+- Datenbank (PostgreSQL)
+- Identity Provider (Keycloak)
+
+
+
+== 3. Backend-Technologie
+
+=== 3.1 Stack
+
+- Java 21
+- Quarkus
+- RESTEasy Reactive
+- Hibernate ORM
+- Panache Repository Pattern
+- PostgreSQL
+- Flyway
+- OpenAPI (Swagger, nur Entwicklung)
+- Docker
+
+
+=== 3.2 Backend-Struktur
+
+Die Backend-Struktur folgt einem klaren Layer-Modell:
+
+- Entity Layer
+- Repository Layer
+- Resource Layer
+
+Service-Logik ist im Resource-Layer gekapselt und transaktional.
+
+Use-Case-Layer und Modul-Systeme werden bewusst nicht eingesetzt.
+
+
+
+== 4. Sicherheitsarchitektur
+
+=== 4.1 Authentifizierung
+
+- Zentrale Benutzerverwaltung über Keycloak
+- OpenID Connect (OAuth2)
+- Authorization Code Flow mit PKCE
+- Backend ist stateless
+- Tokens werden clientseitig sicher gespeichert
+
+
+=== 4.2 Rollenmodell (Keycloak)
+
+Rollen:
+- PFLEGER
+- PATIENT
+
+Keycloak wird ausschließlich für:
+- Authentifizierung
+- Identitätsverwaltung
+verwendet.
+
+
+
+=== 4.3 Autorisierung (PBAC)
+
+Die Autorisierung erfolgt **hybrid**:
+
+- Keycloak: Identität + Rolle
+- Backend: Policy-Based Access Control
+
+Eigenschaften:
+- Policies sind dynamisch
+- Policies sind datenbankbasiert
+- Policies sind patientenbezogen und bereichsbezogen
+
+Pflege-Rechte werden **nicht** im Token gespeichert.
+
+
+
+=== 4.4 Rechtearten
+
+- READ
+- WRITE
+- CONFIRM
+- REMINDER_LEVEL (ENUM: NONE, ONCE, 15_MIN, 30_MIN)
+
+Rechte werden über Pfleger-Patient-Zuordnungen definiert.
+
+
+
+== 5. Datenmodell (PostgreSQL)
+
+=== 5.1 Grundsätze
+
+- Strikte 3. Normalform
+- Keine JSON/JSONB-Spalten
+- Long als Primary Key
+- Referentielle Integrität über Foreign Keys
+- Soft Deletes
+- Revisionssicherheit durch Versionierung
+
+
+
+=== 5.2 Zentrale Tabellen
+
+==== user_account
+- id (PK)
+- keycloak_id (unique)
+- role
+- created_at
+
+==== patient
+- id (PK)
+- firstname
+- lastname
+- birthdate
+- deleted
+
+==== care_assignment
+- id (PK)
+- pfleger_id (FK → user_account)
+- patient_id (FK → patient)
+- active
+- created_at
+
+
+
+=== 5.3 Anamnese
+
+==== anamnesis
+- id (PK)
+- patient_id (FK)
+- created_at
+
+==== anamnesis_version
+- id (PK)
+- anamnesis_id (FK)
+- version_number
+- content
+- created_by
+- created_at
+- finalized
+
+
+=== 5.4 ADL
+
+==== adl_definition
+- id (PK)
+- name
+
+==== adl_assessment
+- id (PK)
+- adl_definition_id (FK)
+- patient_id (FK)
+- status
+- assessed_at
+- assessed_by
+
+
+
+=== 5.5 Skills
+
+==== skill_definition
+- id (PK)
+- name
+
+==== skill_assessment
+- id (PK)
+- skill_definition_id (FK)
+- patient_id (FK)
+- status
+- comment
+- assessed_at
+
+
+
+=== 5.6 Ressourcen
+
+==== resource
+- id (PK)
+- patient_id (FK)
+- type
+- description
+- proposed_by
+- approved
+- created_at
+
+
+
+=== 5.7 Interventionen
+
+==== intervention
+- id (PK)
+- patient_id (FK)
+- source
+- title
+- description
+- active
+- created_at
+
+==== intervention_task
+- id (PK)
+- intervention_id (FK)
+- description
+- completed
+- completed_at
+
+
+
+=== 5.8 Tagesstruktur
+
+==== daily_plan
+- id (PK)
+- patient_id (FK)
+- plan_date
+
+==== daily_task
+- id (PK)
+- daily_plan_id (FK)
+- title
+- reminder_level
+- completed
+- confirmed_at
+
+
+
+=== 5.9 Medikation
+
+==== medication
+- id (PK)
+- patient_id (FK)
+- name
+- dosage
+- intake_time
+- confirmable
+
+
+
+=== 5.10 Bedarf
+
+==== care_need
+- id (PK)
+- patient_id (FK)
+- description
+- active
+- created_at
+- resolved_at
+
+
+
+=== 5.11 Audit
+
+==== audit_log
+- id (PK)
+- entity
+- entity_id
+- action
+- performed_by
+- performed_at
+
+
+== 6. Repository Pattern (Panache)
+
+- Jede Entität besitzt ein eigenes Repository
+- Repositories enthalten:
+- CRUD
+- komplexe JPQL-Queries
+- Filterung nach Patient und Rechten erfolgt im Repository
+- Keine Business-Logik in Entities
+
+
+== 7. REST API
+
+=== 7.1 Prinzipien
+
+- Ressourcenorientiert
+- Kein API-Versioning (vorerst)
+- HTTP-Statuscodes
+- JSON als Austauschformat
+- Idempotente Bestätigungs-Endpunkte
+
+
+
+=== 7.2 Beispiel-Endpunkte
+
+- GET /patients
+- POST /patients
+- GET /patients/{id}
+
+- POST /patients/{id}/anamnesis
+- GET /patients/{id}/anamnesis
+
+- POST /patients/{id}/interventions
+- GET /patients/{id}/interventions
+
+- POST /tasks/{id}/confirm
+
+
+
+== 8. Frontend (Mobile App)
+
+=== 8.1 Technologie
+
+- React Native
+- TypeScript
+- Expo (Startphase)
+- Axios
+- Secure Storage
+
+
+
+=== 8.2 App-Eigenschaften
+
+- Echte native App (iOS / Android)
+- Offline Read-Only Modus
+- Online erforderlich für Schreiboperationen
+
+
+
+=== 8.3 Architektur
+
+- Komponentenbasierter Aufbau
+- Einfaches State Management (Context)
+- Keine komplexen Client-Rechteprüfung
+- Server entscheidet über Autorisierung
+
+
+
+=== 8.4 Navigation
+
+- Stack-Navigation
+- Erweiterbar für spätere Tab-Navigation
+
+
+== 9. Erinnerungen
+
+- Erinnerungen ausschließlich clientseitig
+- Keine serverseitigen Scheduler
+- Keine Erinnerungen für Medikation
+
+
+
+== 10. KI-Integration
+
+- Separater KI-Service
+- Kommunikation über REST
+- KI liefert Vorschläge
+- Speicherung nur nach expliziter Bestätigung
+- Hinweis bei KI-generierten Inhalten
+
+
+
+== 11. Dokumentation & Export
+
+- PDF-Generierung serverseitig
+- Export umfasst:
+- Pflegeverlauf
+- Zeitraum
+- Patient
+- Pfleger
+- Export ist unveränderbar
+
+
+== 12. Monitoring & Betrieb
+
+- Health Checks über Quarkus
+- Docker für lokale Entwicklung
+- Docker Compose
+- Kubernetes-fähig für späteren Betrieb
+
+
+== 13. Nicht-Ziele
+
+- Keine medizinische Entscheidungslogik
+- Keine Medikamenten-Erinnerungen
+- Keine automatische KI-Ausführung
+- Keine externe Event-Systeme
+
+
+
+== 14. Erweiterbarkeit
+
+- Mandantenfähigkeit später möglich
+- Push Notifications später möglich
+- Weitere Pflegebereiche integrierbar

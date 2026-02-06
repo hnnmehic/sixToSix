@@ -1,0 +1,285 @@
+= Pflegedienstanwendung – Fachliche Spezifikation
+:author: Hanan Mehic
+:docdate: 06.02.2026
+:doctype: book
+:toc:top
+:toclevels: 3
+:sectnums:
+
+== 1. Ziel und Zweck der Anwendung
+
+Die Anwendung dient der strukturierten Unterstützung von Pflegeprozessen zwischen Pflegern und Patienten (Klienten).
+
+Ziele der Anwendung sind:
+
+- Dokumentation der Vorgeschichte und des aktuellen Zustands des Patienten
+- Planung, Durchführung und Nachverfolgung von Pflegemaßnahmen
+- Unterstützung der Tagesstruktur des Patienten
+- Transparente Nachvollziehbarkeit von Pflegehandlungen
+- Unterstützung des Pflegers durch KI-basierte Vorschläge (ohne Entscheidungsübernahme)
+- Erhöhung der Sicherheit durch eine integrierte Notfallfunktion
+
+Die Anwendung ersetzt keine medizinische Beratung oder ärztliche Behandlung.
+
+
+
+== 2. Begriffsdefinitionen
+
+*Pfleger*::
+Eine Person, die einen Patienten betreut. Pfleger können ausgebildete Pflegekräfte oder Angehörige sein. Es wird fachlich nicht zwischen Pflegertypen unterschieden.
+
+*Patient (Klient)*::
+Eine betreute Person, deren Pflege dokumentiert und organisiert wird.
+
+*Anamnese*::
+Die fortlaufend gepflegte Dokumentation der Vorgeschichte, des Gesundheitszustands und relevanter Einschränkungen des Patienten.
+
+*ADL (Aktivitäten des täglichen Lebens)*::
+Vordefinierte Tätigkeiten des Alltags (z. B. Essen, Trinken, Mobilität), die hinsichtlich ihrer Selbstständigkeit bewertet werden.
+
+*Skills*::
+Vordefinierte Fähigkeitsbereiche (z. B. Selbstfürsorge, Haushalt, Entspannung), die analog zu ADLs bewertet werden.
+
+*Ressourcen*::
+Soziale, persönliche und biografische Faktoren des Patienten (z. B. Familie, Freunde, Beruf, Vorlieben).
+
+*Intervention*::
+Geplante Pflegemaßnahmen, die sich aus Anamnese, ADLs, Skills, Ressourcen oder Bedarf ergeben.
+
+*Tagesstruktur*::
+Zeitlich strukturierte Darstellung alltäglicher Tätigkeiten, die den Patienten im Tagesablauf unterstützen.
+
+*Bedarf*::
+Ein ad-hoc erfasster Zustand oder eine Krisensituation, die dokumentiert wird und Pflegebedarf signalisiert.
+
+
+== 3. Rollen und Rechte
+
+=== 3.1 Pfleger
+
+Der Pfleger:
+- erstellt und pflegt Patientendaten
+- führt Anamnese, Interventionen und Tagesstruktur
+- verwaltet Rechte des Patienten
+- ist fachlich verantwortlich für alle Inhalte
+
+=== 3.2 Patient
+
+Der Patient:
+- erhält einen eigenen Account
+- kann die Anwendung gemäß der vom Pfleger vergebenen Rechte nutzen
+- kann Ressourcen vorschlagen
+- kann Tätigkeiten bestätigen
+
+=== 3.3 Rechtesystem
+
+Rechte werden individuell vergeben und sind nachträglich änderbar.
+
+Mögliche Rechte:
+- Lesen
+- Schreiben
+- Bestätigen
+- Erinnerungen (nie, einmalig, alle 15 Minuten, alle 30 Minuten)
+
+Rechte können bereichsbezogen vergeben werden (z. B. Tagesstruktur sichtbar, Interventionen nicht sichtbar).
+
+
+== 4. Anamnese
+
+=== 4.1 Allgemein
+
+- Pro Patient existiert eine globale Anamnese.
+- Die Anamnese ist laufend erweiterbar.
+- Inhalte bestehen aus strukturierten Feldern und Freitext.
+
+=== 4.2 Versionierung
+
+- Änderungen werden versioniert.
+- Alte Versionen bleiben nachvollziehbar.
+- Es ist ersichtlich:
+- wer eine Änderung vorgenommen hat
+- wann sie vorgenommen wurde
+- was geändert wurde
+
+=== 4.3 Änderungslogik
+
+- Vor dem Finalisieren eines Eintrags wird der Pfleger explizit gefragt.
+- Nach der Finalisierung ist der Eintrag nicht mehr änderbar.
+- Ergänzungen durch neue Einträge sind weiterhin möglich.
+
+
+== 5. ADLs und Skills
+
+=== 5.1 Struktur
+
+- ADLs und Skills sind vordefiniert.
+- Jeder Eintrag hat einen Status:
+- Intakt
+- Eingeschränkt
+- Pflegerelevant
+
+=== 5.2 Verlauf
+
+- ADLs und Skills können mehrfach neu eingeschätzt werden.
+- Der zeitliche Verlauf ist nachvollziehbar.
+
+=== 5.3 Überleitung in Interventionen
+
+- Pflegerelevante ADLs und Skills werden automatisch als Grundlage für Interventionen vorgeschlagen.
+
+
+== 6. Ressourcen
+
+=== 6.1 Inhalte
+
+Ressourcen umfassen u. a.:
+- Kinder
+- Familie
+- Freunde
+- Beruf
+- Vorlieben
+- Interessen
+
+=== 6.2 Nutzung
+
+- Ressourcen werden aktiv in Interventionen genutzt.
+- KI kann Ressourcen zur Generierung von Vorschlägen heranziehen.
+
+=== 6.3 Pflege der Ressourcen
+
+- Patienten können Ressourcen vorschlagen.
+- Pfleger prüfen und bestätigen vorgeschlagene Ressourcen.
+
+
+== 7. Interventionen
+
+=== 7.1 Zweck
+
+Interventionen sind die zentrale Planungseinheit der Pflege.
+
+Sie basieren auf:
+- Anamnese
+- ADLs
+- Skills
+- Ressourcen
+- Bedarf
+
+=== 7.2 Inhalte
+
+Interventionen können enthalten:
+- Pflegehandlungen
+- Beobachtungen
+- Grafische Behandlungsanleitungen
+- Tätigkeiten für die Tagesstruktur
+
+=== 7.3 Grafische Anleitungen
+
+- Interaktive Darstellungen des menschlichen Körpers
+- Hervorhebung betroffener Körperzonen
+- Dienen dem visuellen Verständnis
+- Können als „durchgeführt“ markiert werden
+
+
+== 8. Tagesstruktur und Erinnerungen
+
+=== 8.1 Tagesstruktur
+
+- Wird gemeinsam von Pfleger und Patient erstellt.
+- Kann flexibel gestaltet werden (tages- oder wochenabhängig).
+
+=== 8.2 Tätigkeiten
+
+- Einzelne Aktivitäten wie Trinken, Bewegung, Entspannung.
+- Tätigkeiten können manuell bestätigt werden.
+
+=== 8.3 Erinnerungen
+
+- Erinnerungen sind nur für alltägliche Tätigkeiten erlaubt.
+- Keine Erinnerungen für Medikamente.
+- Erinnerungen können zeit- oder ereignisbasiert sein.
+
+
+== 9. Medikation
+
+=== 9.1 Allgemein
+
+- Medikation ist rein informativ.
+- Grundlage ist die Absprache mit dem Arzt.
+
+=== 9.2 Inhalte
+
+- Medikamentenname
+- Menge
+- Einnahmezeitpunkt
+
+=== 9.3 Einschränkungen
+
+- Keine Erinnerungsfunktion für Medikamente.
+- Einnahme kann optional bestätigt werden.
+- Medikation ist exportierbar.
+
+
+== 10. Bedarf und Krisensituationen
+
+- Bedarf kann ad-hoc erfasst werden.
+- Bedarf bleibt aktiv, bis er beendet wird.
+- Bedarf dient der Dokumentation und Nachvollziehbarkeit.
+- Beispiel: Blutdruck > 160/90
+
+
+== 11. Notfallfunktion
+
+- Notfallknopf ist jederzeit in der App verfügbar.
+- Leitet direkt an die Rettungsnummer weiter.
+- Informiert alle zugeordneten Pfleger.
+- Zeigt relevante Patientendaten an.
+- Notfälle werden protokolliert.
+
+
+== 12. Dokumentation und Export
+
+- Alle pflegerelevanten Daten sind dokumentierbar.
+- Exporte erfolgen als PDF.
+- Export enthält:
+- Zeitraum
+- Autor
+- Datum
+- Export dient der Dokumentation.
+
+
+== 13. KI-Unterstützung
+
+=== 13.1 Einsatzbereiche
+
+KI kann Vorschläge machen für:
+- Interventionen
+- Tagesstruktur
+- Übungen
+- Grafische Darstellungen
+
+=== 13.2 Einschränkungen
+
+- KI speichert keine Inhalte automatisch.
+- Jede Übernahme erfolgt nur nach Bestätigung durch den Pfleger.
+- KI ersetzt keine fachliche Entscheidung.
+
+=== 13.3 Hinweise
+
+- Bei KI-generierten Inhalten werden entsprechende Hinweise angezeigt.
+
+
+
+== 14. Verantwortung und Haftung
+
+- Der Pfleger trägt die fachliche Verantwortung.
+- Pfleger bestätigen Maßnahmen explizit.
+- Die Anwendung dient der Unterstützung, nicht der Entscheidungsfindung.
+
+
+
+== 15. Erweiterbarkeit
+
+Die Anwendung ist so konzipiert, dass zukünftige Erweiterungen möglich sind, insbesondere:
+- Erweiterte grafische Anleitungen
+- Erweiterte KI-Unterstützung
+- Zusätzliche Pflegebereiche

@@ -1,0 +1,367 @@
+= Pflegedienstanwendung – Vollständige Gesprächsdokumentation
+:author: Hanan Mehic
+:docdate: 06.02.2026
+:doctype: book
+:toc: top
+:toclevels: 4
+:sectnums:
+
+== Metainformationen
+
+- Ziel: Erstellung einer fachlichen Codex-Spezifikation
+- Vorgehen: Keine Annahmen, vollständige Klärung durch Fragen & Antworten
+- Ergebnis: Fachliche Spezifikation als `.adoc`
+- Dieses Dokument: Vollständige Dokumentation aller Fragen & Antworten
+
+
+
+== 1. Ausgangsprompt des Users
+
+[source]
+----
+Du bist ChatGPT. Ich bin ein Programmierer einer Pflegedienstanwendung.
+Ziel ist es eine Spezifikation für Codex zu erstellen.
+Triff keine Annahmen, sondern stelle mir Fragen bis alles klar ist.
+Ich werde die Fragen beantworten. Ich habe viel Zeit.
+
+Wir haben Pfleger und Patienten "Klienten".
+Der Pfleger kann eine Anamnese mit dem Patienten erstellen.
+Ziel der Anamnese ist es eine Verfassung der Vorgeschichte und den Zustand des Patienten niederzuschreiben.
+
+Der Pfleger kann eine Intervention mit dem Patienten erstellen.
+Ziel der Intervention ist es Pflegeinformationen zu erhalten
+z. B. Krankheiten, Medikamente, aktuelles Wohlbefinden, Interessen.
+
+Der Pfleger erfasst die Anamnese und deren Informationen.
+Pfleger können entweder ausgebildete Mitarbeiter einer Gesundheitseinrichtung sein oder
+Angehörige des Patienten.
+
+Der Pfleger kann mit dem Patienten anhand der Anamnese eine optimale Tagesstruktur erstellen.
+
+Patienten werden per Knopfdruck (Telefon) direkt an die Rettungsnummer weitergeleitet
+oder können einen Notfallkontakt angeben, welcher bei einem Notfall kontaktiert wird.
+
+Der Pfleger hat eine Einsicht in alle seine Klienten mit Terminen und Daten.
+
+Später soll die Anwendung dahingehend erweitert werden,
+dass der Pfleger Behandlungsanleitungen von der Anwendung erhält.
+Diese sollen einfach verständlich durch grafische Darstellung der Problemzone
+(Zone, Brustkorb...) erklärt werden.
+
+Die Anwendung soll mandantenfähig sein, sodass mehrere unabhängige Betreuer und Patienten
+erstellt werden können.
+
+Ein Betreuer kann mehrere Patienten pflegen,
+während ein Patient von mehreren Betreuern gepflegt werden kann.
+
+Der Patient soll laut Tagesstruktur an Tätigkeiten erinnert werden
+(Wasser, Essverhalten...).
+
+Medikamente sollen aus haftungsrechtlichen Gründen nicht explizit erwähnt werden.
+Bsp:
+„Vergessen Sie ihre Medikamenteneinnahme“ ist in Ordnung
+aber nicht „Nehmen Sie 500mg Aspirin“.
+
+Der Pfleger soll sich über die erfolgten Tätigkeiten informieren können
+(ähnlich Habit Tracker).
+
+Die Pflegedokumentation soll exportiert und/oder gedruckt werden können.
+
+Aus rechtlichen Gründen sollen keine Wecker-/Erinnerungsfunktionen
+für die Medikamenteneinnahme integriert werden.
+
+Erstelle noch keine Spezifikation sondern stelle jetzt deine Fragen.
+----
+
+
+
+== 2. Fragen & Antworten – vollständig und chronologisch
+
+=== Block 1 – Ziel & Rahmen
+
+*Frage 1.1:* Primärer Zweck der Anwendung?
+- Dokumentation
+- Pflegeanleitung
+- Selbstständigkeit
+- oder gleichwertig?
+
+*Antwort 1.1:* Gleichwertig wichtig
+
+
+
+*Frage 1.2:* Plattform?
+- Mobil
+- Web
+- Beides
+
+*Antwort 1.2:* Mobil
+
+
+
+*Frage 1.3:* Einsatzkontext?
+- Privathaushalt
+- Pflegedienst
+- Pflegeheim
+- Krankenhaus
+- alles offen
+
+*Antwort 1.3:* Alles offen
+
+
+
+=== Block 2 – Rollen
+
+*Frage 2.4:* Unterschiedliche Pflegerrollen?
+- getrennte Rollen
+- eine Rolle mit Attributen
+
+*Antwort 2.4:* Eine Pfleger-Rolle mit Attributen
+
+
+
+*Frage 2.5:* Hat der Patient Zugriff?
+- voll
+- eingeschränkt
+- kein Zugriff
+
+*Antwort 2.5:* Ja, eingeschränkt
+
+
+
+*Frage 2.6:* Gibt es eine Admin-Rolle?
+
+*Antwort 2.6:* Nein
+
+
+
+=== Block 3 – Mandanten
+
+*Antwort:* Thema Mandant vorerst vergessen, später klären
+
+
+
+=== Block 4 – Pfleger ↔ Patient
+
+*Frage 4.10:* Kann der Pfleger alle Patientendaten sehen?
+
+*Antwort 4.10:* Ja, alle
+
+
+
+*Frage 4.11:* Gibt es Hauptpfleger?
+
+*Antwort 4.11:* Nein
+
+
+
+*Frage 4.12:* Wie wird Zugriff vergeben?
+
+*Antwort 4.12:* Zugriff beantragen
+
+
+
+=== Block 5 – Anamnese
+
+*Frage 5.13:* Einmalig oder laufend?
+
+*Antwort 5.13:* Laufend erweiterbar
+
+
+
+*Frage 5.14:* Struktur?
+
+*Antwort 5.14:* Kombination aus strukturiert & Freitext
+
+
+
+*Frage 5.15:* Vordefinierte Fragen/Kategorien?
+
+*Antwort 5.15:* Ja
+
+
+
+*Frage 5.16:* Wer darf Anamnese pflegen?
+
+*Antwort 5.16:* Der Pfleger des Patienten
+
+
+
+=== Block 6 – Interventionen
+
+*Frage 6.17:* Dauerhaft?
+
+*Antwort 6.17:* Ja
+
+
+
+*Frage 6.18:* Inhalte?
+
+*Antwort 6.18:* Alles (Beobachtungen, Pflegehandlungen, Infos)
+
+
+
+*Frage 6.19:* Automatisch aus Anamnese?
+
+*Antwort 6.19:* Ja
+
+
+
+*Frage 6.20:* Status (aktiv, abgeschlossen)?
+
+*Antwort 6.20:* Ja
+
+
+
+=== Block 7 – Tagesstruktur & Erinnerungen
+
+*Frage 7.21:* Fix oder flexibel?
+
+*Antwort 7.21:* Abhängig von Pfleger & Patient
+
+
+
+*Frage 7.22:* Erinnerungsarten?
+
+*Antwort 7.22:* Alles
+
+
+*Frage 7.23:* Wer legt Tätigkeiten fest?
+
+*Antwort 7.23:* Pfleger
+
+
+
+*Frage 7.24:* Bestätigung durch Patient?
+
+*Antwort 7.24:* Ja
+
+
+
+=== Block 8 – Recht & Haftung
+
+*Frage 8.25:* Medikamententexte?
+
+*Antwort 8.25:* Medikamente + Menge dürfen dokumentiert werden, aber keine Erinnerungen
+
+
+
+*Frage 8.26:* Disclaimer notwendig?
+
+*Antwort 8.26:* Ja
+
+
+
+*Frage 8.27:* Auditierbarkeit?
+
+*Antwort 8.27:* Ja
+
+
+
+=== Block 9 – Notfall
+
+*Frage 9.28:* Notfallknopf wo?
+
+*Antwort 9.28:* In der App
+
+
+
+*Frage 9.29:* Notfallkontakte?
+
+*Antwort 9.29:* Alle Pfleger des Patienten
+
+
+
+*Frage 9.30:* Pfleger benachrichtigen?
+
+*Antwort 9.30:* Ja
+
+
+
+=== Block 10 – Tätigkeiten & Tracking
+
+*Frage 10.31:* Bestätigung automatisch oder manuell?
+
+*Antwort 10.31:* Manuell
+
+
+
+*Frage 10.32:* Statistiken?
+
+*Antwort 10.32:* Ja
+
+
+
+*Frage 10.33:* Kommentare möglich?
+
+*Antwort 10.33:* Ja
+
+
+
+=== Block 11 – Export
+
+*Frage 11.34:* Exportformat?
+
+*Antwort 11.34:* PDF
+
+
+
+*Frage 11.35:* Umfang?
+
+*Antwort 11.35:* Alles
+
+
+
+=== Block 12 – Erweiterungen
+
+*Frage 12.37:* Anleitungen?
+
+*Antwort 12.37:* Schritt für Schritt
+
+
+*Frage 12.38:* Erstellung?
+
+*Antwort 12.38:* Manuell + KI
+
+
+
+*Frage 12.39:* Personenspezifisch?
+
+*Antwort 12.39:* Über Anamnese & Intervention
+
+
+
+=== Block 13 – Ergänzungen des Users
+
+- Skills-Formular (Selbstfürsorge, Haushalt, Entspannung)
+- Status: Intakt / Eingeschränkt / Pflegerelevant
+- Ressourcenbereich (Kinder, Freunde, Beruf, Vorlieben)
+- Ressourcen fließen aktiv in Interventionen ein
+- KI kann Vorschläge generieren
+- Bedarf (Ad-hoc, z. B. Blutdruck > 160/90)
+- Medikation-Seite:
+- informativ
+- keine Erinnerungen
+- bestätigbar
+- exportierbar
+
+
+
+=== Block 14 – Finale Entscheidungen
+
+- Ressourcen aktiv nutzbar
+- Ressourcen-Vorschläge durch Patient, Bestätigung durch Pfleger
+- KI nur unterstützend, nie automatisch
+- Versionierung & Audit überall
+- Tagesstruktur ≠ Medikation
+- Interventionen als zentrale Pflegeeinheit
+
+
+== 3. Ergebnis
+
+Auf Basis dieses vollständigen Klärungsprozesses wurde anschließend eine
+fachliche Codex-Spezifikation als AsciiDoc (`.adoc`) erstellt.
+
+Dieses Dokument dient als:
+- vollständige Gesprächs- und Entscheidungsdokumentation
+- Projektgrundlage
+- nachvollziehbarer Entwicklungsverlauf
