@@ -421,3 +421,25 @@ Rechte werden über Pfleger-Patient-Zuordnungen definiert.
 - Mandantenfähigkeit später möglich
 - Push Notifications später möglich
 - Weitere Pflegebereiche integrierbar
+
+== 15. Integration Externer Dienste
+
+=== Google Maps API Die Anwendung nutzt die Google Maps Plattform zur Unterstützung der Notfallfunktion und zur lokalen Informationsbereitstellung für Pfleger.
+
+Dienste: Es werden die Places API (Nearby Search) und die Geocoding API genutzt.
+
+Sicherheit: Der API-Key wird serverseitig als Environment-Variable verwaltet und niemals an den Client übertragen.
+
+Datenfluss:
+
+- Backend erhält eine Anfrage mit einer patient_id.
+- Backend liest die Adresse aus der Datenbank.
+- Backend wandelt Adresse in Koordinaten um (Geocoding).
+- Backend sucht Ärzte im Umkreis (Nearby Search).
+- Backend liefert gefilterte Ergebnisse (Name, Adresse, Distanz) als DTO an die React Native App.
+
+=== Implementierungsvorgaben
+
+- Caching: Ergebnisse der Arztsuche werden nicht persistiert, um die Datenaktualität zu gewährleisten.
+- Fehlerbehandlung: Bei Ausfall der Google-Dienste muss die Notfallfunktion weiterhin die Basis-Notrufnummer (144) bereitstellen.
+- Kostenoptimierung: Geocoding-Ergebnisse für Patientenadressen dürfen (sofern DSGVO-konform) kurzzeitig im Service-Layer zwischengespeichert werden, um redundante API-Aufrufe zu vermeiden.
