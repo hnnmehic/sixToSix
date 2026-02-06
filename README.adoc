@@ -1,0 +1,147 @@
+= Pflegedienstanwendung
+:author: Hanan Mehic
+:doctype: article
+:toc: top
+:toclevels: 2
+:icons: font
+
+== Überblick
+
+Die Pflegedienstanwendung ist eine mobile Anwendung zur strukturierten
+Unterstützung von Pflegeprozessen zwischen Pflegern und Patienten (Klienten).
+
+Sie unterstützt die Dokumentation, Planung und Nachverfolgung von
+Pflegemaßnahmen und dient als digitale Pflegebegleitung im Alltag.
+
+Die Anwendung ersetzt keine medizinische Beratung oder ärztliche Behandlung.
+
+== Zielsetzung
+
+Ziele der Anwendung sind:
+
+- Strukturierte und nachvollziehbare Pflegedokumentation
+- Abbildung der Vorgeschichte und des aktuellen Zustands von Patienten
+- Planung und Durchführung von Pflegeinterventionen
+- Unterstützung der Tagesstruktur von Patienten
+- Transparente Nachverfolgung von Pflegehandlungen
+- Erhöhung der Sicherheit durch eine integrierte Notfallfunktion
+- Unterstützung des Pflegers durch KI-basierte Vorschläge (nicht automatisiert)
+
+== Zielgruppe
+
+- Pfleger (ausgebildete Pflegekräfte oder Angehörige)
+- Patienten mit eingeschränktem, rechtebasiertem Zugriff
+
+== Funktionsumfang
+
+- Patientenverwaltung
+- Anamnese mit Versionierung und Historie
+- ADLs und Skills mit zeitlichem Verlauf
+- Ressourcenverwaltung
+- Pflegeinterventionen
+- Tagesstruktur mit Tätigkeiten und Erinnerungen
+- Medikation (rein informativ, ohne Erinnerungen)
+- Bedarfserfassung (ad-hoc)
+- Notfallfunktion
+- Dokumentation und PDF-Export
+- optionale KI-Unterstützung
+
+== icon:sitemap[] Architekturübersicht
+
+Die Anwendung folgt einer klassischen Client-Server-Architektur:
+
+- Mobile App (React Native)
+- Backend (Quarkus)
+- Relationale Datenbank (PostgreSQL)
+- Zentrale Authentifizierung über Keycloak
+
+Die Architektur ist:
+- monolithisch (Backend)
+- stateless
+- REST-basiert
+- erweiterbar
+
+== Technologie-Stack
+
+=== Backend
+
+- Java 21
+- Quarkus
+- Hibernate ORM
+- Panache Repository Pattern
+- PostgreSQL
+- Flyway
+- RESTEasy Reactive
+- OpenAPI (Swagger, Entwicklung)
+
+=== Sicherheit
+
+- Keycloak
+- OpenID Connect (OAuth2)
+- Policy-Based Access Control (PBAC)
+- Hybrider Ansatz (Keycloak + Backend)
+
+=== Frontend
+
+- React Native
+- TypeScript
+- Expo (Startphase)
+- Axios
+- Secure Storage
+
+=== Betrieb
+
+- Docker
+- Docker Compose (lokale Entwicklung)
+- Kubernetes-fähig (zukünftig)
+
+== icon:lock[] Sicherheitskonzept
+
+- Zentrale Authentifizierung über Keycloak
+- Autorisierung erfolgt ausschließlich im Backend
+- Rechte sind:
+- patientenbezogen
+- bereichsbezogen
+- dynamisch konfigurierbar
+- Tokens enthalten keine pflegespezifischen Rechte
+- Das Backend erzwingt alle sicherheitsrelevanten Entscheidungen
+
+== Datenmodell
+
+- Relationales Datenmodell
+- Strikte 3. Normalform
+- Keine JSON/JSONB-Spalten
+- Soft Deletes
+- Versionierung über Historientabellen
+- Revisionssicher und auditierbar
+
+== icon:brain[] KI-Unterstützung
+
+- KI dient ausschließlich zur Unterstützung
+- KI generiert Vorschläge, keine Entscheidungen
+- Speicherung erfolgt nur nach expliziter Bestätigung durch den Pfleger
+- KI-Module sind optional und technisch entkoppelt
+
+== Dokumentation
+
+Das Projekt enthält folgende Dokumente:
+
+- Fachliche Spezifikation (`.adoc`)
+- Technische Spezifikation (`.adoc`)
+- Vollständige Gesprächsdokumentation (`.adoc`)
+- README (`README.adoc`)
+
+== Entwicklung
+
+=== Lokale Entwicklung
+
+Voraussetzungen:
+
+- Java 21
+- Docker
+- Docker Compose
+- Node.js
+- npm oder yarn
+
+Die Anwendung ist für eine schrittweise Weiterentwicklung und
+langfristige Wartung konzipiert.
